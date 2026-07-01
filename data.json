@@ -1,0 +1,749 @@
+[
+  {
+    "id": "T-1",
+    "customer": "AH-GN",
+    "asalBarang": "A JUMBO @100",
+    "status": "TIDAK_PO",
+    "berat": 1800
+  },
+  {
+    "id": "T-2",
+    "customer": "AH-GN",
+    "asalBarang": "A NTR L",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-3",
+    "customer": "AH-GN",
+    "asalBarang": "A NTR L SEMU",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-4",
+    "customer": "AH-GN",
+    "asalBarang": "A NTR SEMU",
+    "status": "TIDAK_PO",
+    "berat": 1500
+  },
+  {
+    "id": "T-5",
+    "customer": "AH-GN",
+    "asalBarang": "B NTR L",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-6",
+    "customer": "AH-GN",
+    "asalBarang": "B NTR T SEMU",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-7",
+    "customer": "AH-GN",
+    "asalBarang": "C JELEK",
+    "status": "TIDAK_PO",
+    "berat": 1500
+  },
+  {
+    "id": "T-8",
+    "customer": "AH-GN",
+    "asalBarang": "C NTR T",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-9",
+    "customer": "AH-GN",
+    "asalBarang": "MK KCL",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-10",
+    "customer": "AH-GN",
+    "asalBarang": "MK KCL NTR",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-11",
+    "customer": "AH-GN",
+    "asalBarang": "OV JUMBO @100",
+    "status": "TIDAK_PO",
+    "berat": 2300
+  },
+  {
+    "id": "T-12",
+    "customer": "AH-GN",
+    "asalBarang": "OV JUMBO @50",
+    "status": "TIDAK_PO",
+    "berat": 100
+  },
+  {
+    "id": "T-13",
+    "customer": "AH-GN",
+    "asalBarang": "OV KCL",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-14",
+    "customer": "AH-GN",
+    "asalBarang": "OV KCL NTR",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-15",
+    "customer": "AH-GN",
+    "asalBarang": "OV NTR T",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-16",
+    "customer": "AH-GN",
+    "asalBarang": "SDT NTR L",
+    "status": "TIDAK_PO",
+    "berat": 2700
+  },
+  {
+    "id": "T-17",
+    "customer": "AH-GN",
+    "asalBarang": "S+ KUNING",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-18",
+    "customer": "AH-GN",
+    "asalBarang": "S+ SEMU",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-19",
+    "customer": "AH-GN",
+    "asalBarang": "SDT JUMBO @100",
+    "status": "TIDAK_PO",
+    "berat": 200
+  },
+  {
+    "id": "T-20",
+    "customer": "AH-GN",
+    "asalBarang": "SDT JUMBO @50",
+    "status": "TIDAK_PO",
+    "berat": 100
+  },
+  {
+    "id": "T-21",
+    "customer": "AH-GN",
+    "asalBarang": "HCR @10",
+    "status": "TIDAK_PO",
+    "berat": 3300
+  },
+  {
+    "id": "T-22",
+    "customer": "AH-GN",
+    "asalBarang": "P1 MK ABU",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-23",
+    "customer": "AH-GN",
+    "asalBarang": "P1 MK NTR SEMU",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-24",
+    "customer": "AH-GN",
+    "asalBarang": "P1 OV NTR",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-25",
+    "customer": "AH-GN",
+    "asalBarang": "P1 SDT NTR",
+    "status": "TIDAK_PO",
+    "berat": 1200
+  },
+  {
+    "id": "T-26",
+    "customer": "AH-GN",
+    "asalBarang": "P2 NTR",
+    "status": "TIDAK_PO",
+    "berat": 2400
+  },
+  {
+    "id": "T-27",
+    "customer": "AH-GN",
+    "asalBarang": "MK KCL SEMU",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-28",
+    "customer": "AH-GN",
+    "asalBarang": "B NTR SEMU",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-29",
+    "customer": "XM",
+    "asalBarang": "A",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-30",
+    "customer": "XM",
+    "asalBarang": "N3",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-31",
+    "customer": "XM",
+    "asalBarang": "P1",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-32",
+    "customer": "XM",
+    "asalBarang": "A NTR L",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-33",
+    "customer": "XM",
+    "asalBarang": "B NTR L",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-34",
+    "customer": "XM",
+    "asalBarang": "C NTR L",
+    "status": "TIDAK_PO",
+    "berat": 600
+  },
+  {
+    "id": "T-35",
+    "customer": "XM",
+    "asalBarang": "OV NTR L",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-36",
+    "customer": "XM",
+    "asalBarang": "OV KCL NTR",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "T-37",
+    "customer": "XM",
+    "asalBarang": "SDT NTR L",
+    "status": "TIDAK_PO",
+    "berat": 11100
+  },
+  {
+    "id": "T-38",
+    "customer": "XM",
+    "asalBarang": "P1 OV NTR",
+    "status": "TIDAK_PO",
+    "berat": 300
+  },
+  {
+    "id": "P-1",
+    "customer": "AH-GN",
+    "asalBarang": "P1 GPG SDT",
+    "status": "PO_TERBARU",
+    "berat": 900
+  },
+  {
+    "id": "P-2",
+    "customer": "AH-GN",
+    "asalBarang": "P2",
+    "status": "PO_TERBARU",
+    "berat": 300
+  },
+  {
+    "id": "P-3",
+    "customer": "AH-GN",
+    "asalBarang": "P3 @10",
+    "status": "PO_TERBARU",
+    "berat": 600
+  },
+  {
+    "id": "P-4",
+    "customer": "AH-GN",
+    "asalBarang": "P1 @10",
+    "status": "PO_TERBARU",
+    "berat": 600
+  },
+  {
+    "id": "P-5",
+    "customer": "AH-GN",
+    "asalBarang": "P1 @50",
+    "status": "PO_TERBARU",
+    "berat": 300
+  },
+  {
+    "id": "P-6",
+    "customer": "MR LIAO 2",
+    "asalBarang": "OV SEMU",
+    "status": "PO_TERBARU",
+    "berat": 300
+  },
+  {
+    "id": "S-1",
+    "customer": "MR LIAO 2",
+    "namaBarang": "S1",
+    "status": "STOK_PACKING",
+    "berat": 3000
+  },
+  {
+    "id": "S-2",
+    "customer": "MR LIAO 2",
+    "namaBarang": "S2",
+    "status": "STOK_PACKING",
+    "berat": 1500
+  },
+  {
+    "id": "S-3",
+    "customer": "MR LIAO 2",
+    "namaBarang": "S3",
+    "status": "STOK_PACKING",
+    "berat": 900
+  },
+  {
+    "id": "S-4",
+    "customer": "MR LIAO 2",
+    "namaBarang": "S6",
+    "status": "STOK_PACKING",
+    "berat": 300
+  },
+  {
+    "id": "S-5",
+    "customer": "MR LIAO 2",
+    "namaBarang": "K1",
+    "status": "STOK_PACKING",
+    "berat": 3900
+  },
+  {
+    "id": "S-6",
+    "customer": "MR LIAO 2",
+    "namaBarang": "K2",
+    "status": "STOK_PACKING",
+    "berat": 1500
+  },
+  {
+    "id": "S-7",
+    "customer": "MR LIAO 2",
+    "namaBarang": "S5",
+    "status": "STOK_PACKING",
+    "berat": 3000
+  },
+  {
+    "id": "S-8",
+    "customer": "MR LIAO 2",
+    "namaBarang": "S5 K",
+    "status": "STOK_PACKING",
+    "berat": 1200
+  },
+  {
+    "id": "S-9",
+    "customer": "MR LIAO 2",
+    "namaBarang": "SOA",
+    "status": "STOK_PACKING",
+    "berat": 2400
+  },
+  {
+    "id": "S-10",
+    "customer": "MR LIAO 2",
+    "namaBarang": "P1 K",
+    "status": "STOK_PACKING",
+    "berat": 7500
+  },
+  {
+    "id": "S-11",
+    "customer": "MR LIAO 2",
+    "namaBarang": "POA",
+    "status": "STOK_PACKING",
+    "berat": 1500
+  },
+  {
+    "id": "S-12",
+    "customer": "MR LIAO 2",
+    "namaBarang": "ST",
+    "status": "STOK_PACKING",
+    "berat": 27900
+  },
+  {
+    "id": "S-13",
+    "customer": "MR LIAO 2",
+    "namaBarang": "STK",
+    "status": "STOK_PACKING",
+    "berat": 11700
+  },
+  {
+    "id": "S-14",
+    "customer": "MR LIAO 2",
+    "namaBarang": "PTK",
+    "status": "STOK_PACKING",
+    "berat": 8400
+  },
+  {
+    "id": "S-15",
+    "customer": "MR LIAO 2",
+    "namaBarang": "T1",
+    "status": "STOK_PACKING",
+    "berat": 7500
+  },
+  {
+    "id": "S-16",
+    "customer": "MR LIAO 2",
+    "namaBarang": "T2",
+    "status": "STOK_PACKING",
+    "berat": 3900
+  },
+  {
+    "id": "S-17",
+    "customer": "MR LIAO 2",
+    "namaBarang": "STT",
+    "status": "STOK_PACKING",
+    "berat": 3300
+  },
+  {
+    "id": "O-1",
+    "customer": "AH-GN",
+    "asalBarang": "C JELEK",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 150, "PB": 150 }
+  },
+  {
+    "id": "O-2",
+    "customer": "AH-GN",
+    "asalBarang": "A JUMBO @100",
+    "status": "OUTSPEK",
+    "berat": 100,
+    "warnaBreakdown": { "PB": 100 }
+  },
+  {
+    "id": "O-3",
+    "customer": "AH-GN",
+    "asalBarang": "A JUMBO @50",
+    "status": "OUTSPEK",
+    "berat": 200,
+    "warnaBreakdown": { "PT": 100, "PB": 100 }
+  },
+  {
+    "id": "O-4",
+    "customer": "AH-GN",
+    "asalBarang": "A NTR T",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 100, "PB": 200 }
+  },
+  {
+    "id": "O-5",
+    "customer": "AH-GN",
+    "asalBarang": "C NTR T",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 250, "PB": 50 }
+  },
+  {
+    "id": "O-6",
+    "customer": "AH-GN",
+    "asalBarang": "OV NTR T",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 150, "PB": 150 }
+  },
+  {
+    "id": "O-7",
+    "customer": "AH-GN",
+    "asalBarang": "MK KCL",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 250, "PB": 50 }
+  },
+  {
+    "id": "O-8",
+    "customer": "AH-GN",
+    "asalBarang": "OV KCL",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 150, "PB": 150 }
+  },
+  {
+    "id": "O-9",
+    "customer": "AH-GN",
+    "asalBarang": "SDT JUMBO @50",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 200, "PB": 100 }
+  },
+  {
+    "id": "O-10",
+    "customer": "AH-GN",
+    "asalBarang": "P1 OV NTR",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 100, "PB": 200 }
+  },
+  {
+    "id": "O-11",
+    "customer": "AH-GN",
+    "asalBarang": "SDT KCL",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 250, "PB": 50 }
+  },
+  {
+    "id": "O-12",
+    "customer": "AH-GN",
+    "asalBarang": "SDT KCL NTR",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 200, "PB": 100 }
+  },
+  {
+    "id": "O-13",
+    "customer": "AH-GN",
+    "asalBarang": "SDT NTR L",
+    "status": "OUTSPEK",
+    "berat": 600,
+    "warnaBreakdown": { "PT": 300, "PB": 300 }
+  },
+  {
+    "id": "O-14",
+    "customer": "AH-GN",
+    "asalBarang": "P2 NTR",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 100, "PB": 200 }
+  },
+  {
+    "id": "O-15",
+    "customer": "AH-GN",
+    "asalBarang": "SDT NTR T",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 50, "PB": 250 }
+  },
+  {
+    "id": "O-16",
+    "customer": "AH-GN",
+    "asalBarang": "OV NTR L",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 150, "PB": 150 }
+  },
+  {
+    "id": "O-17",
+    "customer": "CHEN 2",
+    "asalBarang": "C2",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 50, "PB": 250 }
+  },
+  {
+    "id": "O-18",
+    "customer": "XM",
+    "asalBarang": "A",
+    "status": "OUTSPEK",
+    "berat": 600,
+    "warnaBreakdown": { "PT": 150, "PB": 200, "ABU": 250 }
+  },
+  {
+    "id": "O-19",
+    "customer": "XM",
+    "asalBarang": "B",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 200, "PB": 100 }
+  },
+  {
+    "id": "O-20",
+    "customer": "XM",
+    "asalBarang": "A JUMBO @100",
+    "status": "OUTSPEK",
+    "berat": 200,
+    "warnaBreakdown": { "PT": 200 }
+  },
+  {
+    "id": "O-21",
+    "customer": "XM",
+    "asalBarang": "A JUMBO @50",
+    "status": "OUTSPEK",
+    "berat": 100,
+    "warnaBreakdown": { "PB": 100 }
+  },
+  {
+    "id": "O-22",
+    "customer": "XM",
+    "asalBarang": "N3",
+    "status": "OUTSPEK",
+    "berat": 600,
+    "warnaBreakdown": { "PT": 250, "PB": 350 }
+  },
+  {
+    "id": "O-23",
+    "customer": "XM",
+    "asalBarang": "N3 SEMU",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PCS": 300 }
+  },
+  {
+    "id": "O-24",
+    "customer": "XM",
+    "asalBarang": "OV",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 100, "PB": 150, "SEMU": 50 }
+  },
+  {
+    "id": "O-25",
+    "customer": "XM",
+    "asalBarang": "P1",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 200, "PB": 100 }
+  },
+  {
+    "id": "O-26",
+    "customer": "XM",
+    "asalBarang": "P1 GPG SDT",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 50, "PB": 250 }
+  },
+  {
+    "id": "O-27",
+    "customer": "XM",
+    "asalBarang": "P1 MK NTR",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 150, "PB": 150 }
+  },
+  {
+    "id": "O-28",
+    "customer": "XM",
+    "asalBarang": "P2",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 50, "PB": 250 }
+  },
+  {
+    "id": "O-29",
+    "customer": "XM",
+    "asalBarang": "SDT NTR L",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 200, "PB": 100 }
+  },
+  {
+    "id": "O-30",
+    "customer": "MR LIAO 2",
+    "asalBarang": "A JELEK",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 200, "PB": 100 }
+  },
+  {
+    "id": "O-31",
+    "customer": "MR LIAO 2",
+    "asalBarang": "B JELEK",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 50, "PB": 250 }
+  },
+  {
+    "id": "O-32",
+    "customer": "MR LIAO 2",
+    "asalBarang": "OV 1",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 150, "PB": 150 }
+  },
+  {
+    "id": "O-33",
+    "customer": "MR LIAO 2",
+    "asalBarang": "P1 MK",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 50, "PB": 50, "PK": 50, "ABU": 150 }
+  },
+  {
+    "id": "O-34",
+    "customer": "MR LIAO 2",
+    "asalBarang": "P1 MK SEMU",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "ABU": 100, "SEMU": 200 }
+  },
+  {
+    "id": "O-35",
+    "customer": "MR LIAO 2",
+    "asalBarang": "P1 OV SEMU",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "BELANG": 300 }
+  },
+  {
+    "id": "O-36",
+    "customer": "MR LIAO 2",
+    "asalBarang": "P1 SDT",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 50, "PB": 250 }
+  },
+  {
+    "id": "O-37",
+    "customer": "MR LIAO 2",
+    "asalBarang": "SDT 1",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 250, "PB": 50 }
+  },
+  {
+    "id": "O-38",
+    "customer": "MR LIAO 2",
+    "asalBarang": "SDT 2",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "PT": 250, "PK": 50 }
+  },
+  {
+    "id": "O-39",
+    "customer": "MR LIAO 2",
+    "asalBarang": "SOA",
+    "status": "OUTSPEK",
+    "berat": 600,
+    "warnaBreakdown": { "BELANG": 600 }
+  },
+  {
+    "id": "O-40",
+    "customer": "MR LIAO 2",
+    "asalBarang": "ST",
+    "status": "OUTSPEK",
+    "berat": 300,
+    "warnaBreakdown": { "BELANG": 300 }
+  }
+]

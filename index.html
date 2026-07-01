@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walet Finishgood Stock Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="#060913" stroke-width="2.5" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+        </div>
+        <div>
+          <span class="logo-text">FINISHGOOD</span>
+          <span class="logo-subtext">Industri Walet</span>
+        </div>
+      </div>
+
+      <ul class="nav-menu">
+        <li class="nav-item active" data-tab="tab-pivot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>
+          Ringkasan Pivot
+        </li>
+        <li class="nav-item" data-tab="tab-board">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          Papan Stok (Kanban)
+        </li>
+        <li class="nav-item" data-tab="tab-matcher">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Penyatuan Outspek
+        </li>
+      </ul>
+
+      <div class="sidebar-actions">
+        <button class="btn btn-primary" id="btn-add-item">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Input Lot Baru
+        </button>
+        <button class="btn btn-secondary" onclick="triggerImport()">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="14 10 12 12 10 10"></polyline><line x1="12" y1="12" x2="12" y2="3"></line></svg>
+          Impor JSON
+        </button>
+        <input type="file" id="import-file-input" style="display: none;" accept=".json" onchange="importJSON(event)">
+        <button class="btn btn-secondary" onclick="exportJSON()">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          Ekspor JSON
+        </button>
+        <button class="btn btn-secondary" onclick="exportCSV()">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Ekspor CSV (Excel)
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="main-content">
+      
+      <!-- Top Title Header -->
+      <header class="header">
+        <div>
+          <h1 class="header-title">Stok Global Finishgood</h1>
+          <p class="header-subtitle">Pantau, pindahkan, dan satukan warna outspek ke stok packing secara menyeluruh.</p>
+        </div>
+      </header>
+
+      <!-- Key Dashboard Metrics -->
+      <section class="stats-grid">
+        <div class="stat-card tidak-po">
+          <span class="stat-label">Tidak PO</span>
+          <span class="stat-value" id="stat-tidak-po">0 <span class="stat-unit">g</span></span>
+          <span class="stat-desc">Menunggu PO masuk</span>
+        </div>
+        <div class="stat-card po-terbaru">
+          <span class="stat-label">PO Terbaru</span>
+          <span class="stat-value" id="stat-po-terbaru">0 <span class="stat-unit">g</span></span>
+          <span class="stat-desc">Daftar PO aktif terbaru</span>
+        </div>
+        <div class="stat-card outspek">
+          <span class="stat-label">Outspek</span>
+          <span class="stat-value" id="stat-outspek">0 <span class="stat-unit">g</span></span>
+          <span class="stat-desc">Barang tidak sesuai ketentuan</span>
+        </div>
+        <div class="stat-card stok-packing">
+          <span class="stat-label">Stok Packing</span>
+          <span class="stat-value" id="stat-stok-packing">0 <span class="stat-unit">g</span></span>
+          <span class="stat-desc">Stok siap kirim</span>
+        </div>
+      </section>
+
+      <!-- TAB 1: Pivot Tables (Excel View Equivalent) -->
+      <section class="tab-panel active" id="tab-pivot">
+        <div class="pivot-grid">
+          
+          <!-- Tidak PO Table Card -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <span class="color-dot" style="background-color: var(--color-tidak-po);"></span>
+                TIDAK PO
+              </span>
+              <span class="badge badge-tidak-po">Menunggu PO</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Asal Barang</th>
+                    <th>Berat</th>
+                  </tr>
+                </thead>
+                <tbody id="tidak-po-table-body">
+                  <!-- Generated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- PO Terbaru Table Card -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <span class="color-dot" style="background-color: var(--color-po-terbaru);"></span>
+                PO TERBARU
+              </span>
+              <span class="badge badge-po-terbaru">PO Aktif</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Asal Barang</th>
+                    <th>Berat</th>
+                  </tr>
+                </thead>
+                <tbody id="po-terbaru-table-body">
+                  <!-- Generated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Stok Packing Table Card -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <span class="color-dot" style="background-color: var(--color-stok-packing);"></span>
+                STOK PACKING
+              </span>
+              <span class="badge badge-stok-packing">Siap Kirim</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Nama Barang</th>
+                    <th>Berat</th>
+                  </tr>
+                </thead>
+                <tbody id="stok-packing-table-body">
+                  <!-- Generated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Outspek Matrix Table Card (Span full width) -->
+          <div class="card pivot-full">
+            <div class="card-header">
+              <span class="card-title">
+                <span class="color-dot" style="background-color: var(--color-outspek);"></span>
+                OUTSPEK (Rincian Warna)
+              </span>
+              <span class="badge badge-outspek">Tidak Sesuai Ketentuan</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Asal Barang</th>
+                    <th>PT</th>
+                    <th>PB</th>
+                    <th>PK</th>
+                    <th>ABU</th>
+                    <th>SEMU</th>
+                    <th>PCS</th>
+                    <th>BELANG</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody id="outspek-table-body">
+                  <!-- Generated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 2: Board View (Kanban & Drag-n-Drop) -->
+      <section class="tab-panel" id="tab-board">
+        <div class="board-columns">
+          
+          <!-- Column 1: Tidak PO -->
+          <div class="board-column">
+            <div class="column-header">
+              <span class="column-title">
+                <span class="color-dot" style="background-color: var(--color-tidak-po);"></span>
+                Tidak PO
+              </span>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button class="card-btn" onclick="toggleColumnSearch('tidak-po')" title="Cari di kolom ini" style="padding: 0.25rem;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <span class="column-count" id="count-tidak-po">0</span>
+              </div>
+            </div>
+            <div class="column-search-container" id="search-container-tidak-po" style="display: none; padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-glass);">
+              <input type="text" class="column-search-input" id="search-input-tidak-po" placeholder="Cari Asal / Berat..." oninput="handleColumnSearch('TIDAK_PO', this.value)" style="width: 100%; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-glass); padding: 0.4rem 0.75rem; border-radius: 8px; color: var(--color-text-primary); font-size: 0.8rem; outline: none;">
+            </div>
+            <div class="cards-container" id="col-tidak-po"></div>
+          </div>
+
+          <!-- Column 2: PO Terbaru -->
+          <div class="board-column">
+            <div class="column-header">
+              <span class="column-title">
+                <span class="color-dot" style="background-color: var(--color-po-terbaru);"></span>
+                PO Terbaru
+              </span>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button class="card-btn" onclick="toggleColumnSearch('po-terbaru')" title="Cari di kolom ini" style="padding: 0.25rem;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <span class="column-count" id="count-po-terbaru">0</span>
+              </div>
+            </div>
+            <div class="column-search-container" id="search-container-po-terbaru" style="display: none; padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-glass);">
+              <input type="text" class="column-search-input" id="search-input-po-terbaru" placeholder="Cari Asal / Berat..." oninput="handleColumnSearch('PO_TERBARU', this.value)" style="width: 100%; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-glass); padding: 0.4rem 0.75rem; border-radius: 8px; color: var(--color-text-primary); font-size: 0.8rem; outline: none;">
+            </div>
+            <div class="cards-container" id="col-po-terbaru"></div>
+          </div>
+
+          <!-- Column 3: Outspek -->
+          <div class="board-column">
+            <div class="column-header">
+              <span class="column-title">
+                <span class="color-dot" style="background-color: var(--color-outspek);"></span>
+                Outspek
+              </span>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button class="card-btn" onclick="toggleColumnSearch('outspek')" title="Cari di kolom ini" style="padding: 0.25rem;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <span class="column-count" id="count-outspek">0</span>
+              </div>
+            </div>
+            <div class="column-search-container" id="search-container-outspek" style="display: none; padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-glass);">
+              <input type="text" class="column-search-input" id="search-input-outspek" placeholder="Cari Asal / Berat..." oninput="handleColumnSearch('OUTSPEK', this.value)" style="width: 100%; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-glass); padding: 0.4rem 0.75rem; border-radius: 8px; color: var(--color-text-primary); font-size: 0.8rem; outline: none;">
+            </div>
+            <div class="cards-container" id="col-outspek"></div>
+          </div>
+
+          <!-- Column 4: Stok Packing -->
+          <div class="board-column">
+            <div class="column-header">
+              <span class="column-title">
+                <span class="color-dot" style="background-color: var(--color-stok-packing);"></span>
+                Stok Packing
+              </span>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <button class="card-btn" onclick="toggleColumnSearch('stok-packing')" title="Cari di kolom ini" style="padding: 0.25rem;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <span class="column-count" id="count-stok-packing">0</span>
+              </div>
+            </div>
+            <div class="column-search-container" id="search-container-stok-packing" style="display: none; padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-glass);">
+              <input type="text" class="column-search-input" id="search-input-stok-packing" placeholder="Cari Nama / Berat..." oninput="handleColumnSearch('STOK_PACKING', this.value)" style="width: 100%; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-glass); padding: 0.4rem 0.75rem; border-radius: 8px; color: var(--color-text-primary); font-size: 0.8rem; outline: none;">
+            </div>
+            <div class="cards-container" id="col-stok-packing"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 3: Outspek Matcher & Merger -->
+      <section class="tab-panel" id="tab-matcher">
+        <div class="matcher-container">
+          
+          <!-- Left side: Outspek Color Lists -->
+          <div class="outspek-list-section">
+            <div class="card-header" style="margin-bottom: 0.5rem;">
+              <h2 class="card-title" style="font-size: 1.1rem;">Daftar Warna Barang Outspek</h2>
+            </div>
+            <div id="outspek-matcher-colors" style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <!-- Generated dynamically by app.js -->
+            </div>
+          </div>
+
+          <!-- Right side: Consolidation & Merger Panel -->
+          <div>
+            <div class="merge-box">
+              <h3 class="merge-box-title">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" stroke-width="2" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Penyatuan Warna
+              </h3>
+              
+              <div class="info-banner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <span>Satukan warna outspek sejenis dari customer untuk dikonversi menjadi <strong>Stok Packing</strong> (siap kirim).</span>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <span style="font-size: 0.8rem; color: var(--color-text-secondary); font-weight: 600; text-transform: uppercase;">Barang yang akan disatukan:</span>
+                <div class="selected-items-list" id="merge-selected-list">
+                  <!-- Dynamic selection list -->
+                </div>
+              </div>
+
+              <div class="merge-summary">
+                <div class="summary-row">
+                  <span>Total Berat Gabungan</span>
+                  <span class="summary-total-weight" id="merge-total-weight">0 g</span>
+                </div>
+                <!-- Dynamic 300g multiple packing alert -->
+                <div id="merge-packing-alert" style="display: none; margin-top: 0.5rem; background-color: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 0.75rem; color: #34d399; font-size: 0.8rem; align-items: center; gap: 0.5rem;">
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" style="flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                  <span id="merge-packing-alert-text">Saling melengkapi! Bisa dibuat 2 pack (@300g).</span>
+                </div>
+              </div>
+
+              <div class="merge-form-group">
+                <label for="merge-customer">Customer</label>
+                <input type="text" id="merge-customer" placeholder="AH-GN" readonly>
+              </div>
+
+              <div class="merge-form-group">
+                <label for="merge-nama-barang">Nama Barang Packing Akhir</label>
+                <input type="text" id="merge-nama-barang" placeholder="Contoh: S1, S2, K1">
+              </div>
+
+              <button class="btn btn-primary" id="btn-merge-action" style="width: 100%; margin-top: 0.5rem;" disabled>
+                Proses Satukan & Pindahkan ke Packing
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Toast Notification Area -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Add Item Modal -->
+  <div class="modal-overlay" id="add-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Input Lot Stok Baru</h3>
+        <button class="modal-close" onclick="closeModal('add-modal')">&times;</button>
+      </div>
+      <form id="add-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            
+            <div class="form-group-full merge-form-group">
+              <label for="add-customer">Customer</label>
+              <input type="text" id="add-customer" placeholder="Contoh: AH-GN, MR LIAO 2" required>
+            </div>
+
+            <div class="merge-form-group">
+              <label for="add-status">Status/Tabel</label>
+              <select id="add-status">
+                <option value="TIDAK_PO">TIDAK PO</option>
+                <option value="PO_TERBARU">PO TERBARU</option>
+                <option value="OUTSPEK">OUTSPEK</option>
+                <option value="STOK_PACKING">STOK PACKING</option>
+              </select>
+            </div>
+
+            <!-- Field: Asal Barang (For Tidak PO, PO Terbaru, Outspek) -->
+            <div class="merge-form-group field-asal-wrapper">
+              <label for="add-asal">Asal Barang</label>
+              <input type="text" id="add-asal" placeholder="Contoh: A JUMBO @100, OV NTR L">
+            </div>
+
+            <!-- Field: Nama Barang (For Stok Packing) -->
+            <div class="merge-form-group field-nama-wrapper" style="display: none;">
+              <label for="add-nama">Nama Barang (Packing)</label>
+              <input type="text" id="add-nama" placeholder="Contoh: S1, S2, K1">
+            </div>
+
+            <!-- Weight Input (For non-Outspek) -->
+            <div class="form-group-full merge-form-group field-berat-wrapper">
+              <label for="add-berat">Berat Total (gram)</label>
+              <input type="number" id="add-berat" min="1" step="any" placeholder="Masukkan berat">
+            </div>
+
+            <!-- Color Breakdown Inputs (For Outspek status) -->
+            <div class="form-group-full color-breakdown-section field-colors-wrapper" style="display: none;">
+              <div class="color-breakdown-title">Rincian Berat Per Warna (gr)</div>
+              <div class="color-input-grid">
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PT"></span>PT</label>
+                  <input type="number" id="color-add-PT" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PB"></span>PB</label>
+                  <input type="number" id="color-add-PB" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PK"></span>PK</label>
+                  <input type="number" id="color-add-PK" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot ABU"></span>ABU</label>
+                  <input type="number" id="color-add-ABU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot SEMU"></span>SEMU</label>
+                  <input type="number" id="color-add-SEMU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PCS"></span>PCS</label>
+                  <input type="number" id="color-add-PCS" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot BELANG"></span>BELANG</label>
+                  <input type="number" id="color-add-BELANG" min="0" step="any" placeholder="0">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-modal')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Lot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Edit Item Modal -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="edit-title">Edit Lot Stok</h3>
+        <button class="modal-close" onclick="closeModal('edit-modal')">&times;</button>
+      </div>
+      <form id="edit-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            
+            <div class="form-group-full merge-form-group">
+              <label for="edit-customer">Customer</label>
+              <input type="text" id="edit-customer" required>
+            </div>
+
+            <div class="merge-form-group">
+              <label for="edit-status">Status/Tabel</label>
+              <select id="edit-status">
+                <option value="TIDAK_PO">TIDAK PO</option>
+                <option value="PO_TERBARU">PO TERBARU</option>
+                <option value="OUTSPEK">OUTSPEK</option>
+                <option value="STOK_PACKING">STOK PACKING</option>
+              </select>
+            </div>
+
+            <div class="merge-form-group field-asal-wrapper">
+              <label for="edit-asal">Asal Barang</label>
+              <input type="text" id="edit-asal">
+            </div>
+
+            <div class="merge-form-group field-nama-wrapper" style="display: none;">
+              <label for="edit-nama">Nama Barang (Packing)</label>
+              <input type="text" id="edit-nama">
+            </div>
+
+            <div class="form-group-full merge-form-group field-berat-wrapper">
+              <label for="edit-berat">Berat Total (gram)</label>
+              <input type="number" id="edit-berat" min="1" step="any">
+            </div>
+
+            <!-- Color Breakdown Inputs (For Outspek status) -->
+            <div class="form-group-full color-breakdown-section field-colors-wrapper" style="display: none;">
+              <div class="color-breakdown-title">Rincian Berat Per Warna (gr)</div>
+              <div class="color-input-grid">
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PT"></span>PT</label>
+                  <input type="number" id="color-edit-PT" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PB"></span>PB</label>
+                  <input type="number" id="color-edit-PB" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PK"></span>PK</label>
+                  <input type="number" id="color-edit-PK" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot ABU"></span>ABU</label>
+                  <input type="number" id="color-edit-ABU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot SEMU"></span>SEMU</label>
+                  <input type="number" id="color-edit-SEMU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PCS"></span>PCS</label>
+                  <input type="number" id="color-edit-PCS" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot BELANG"></span>BELANG</label>
+                  <input type="number" id="color-edit-BELANG" min="0" step="any" placeholder="0">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-modal')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Move to Outspek Breakdown Intercept Modal -->
+  <div class="modal-overlay" id="outspek-move-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="outspek-move-title">Rincian Warna Outspek</h3>
+        <button class="modal-close" onclick="closeModal('outspek-move-modal')">&times;</button>
+      </div>
+      <form id="outspek-move-form">
+        <div class="modal-body">
+          
+          <div class="info-banner" style="margin-bottom: 0.5rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Harap rincikan berat <strong id="outspek-move-weight-hint">0</strong> gram barang ini ke dalam kategori warna outspek di bawah:</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group-full merge-form-group">
+              <label for="outspek-move-asal">Asal Barang</label>
+              <input type="text" id="outspek-move-asal" required>
+            </div>
+            
+            <div class="form-group-full color-breakdown-section">
+              <div class="color-breakdown-title">Rincian Warna (gr)</div>
+              <div class="color-input-grid">
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PT"></span>PT</label>
+                  <input type="number" id="color-move-PT" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PB"></span>PB</label>
+                  <input type="number" id="color-move-PB" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PK"></span>PK</label>
+                  <input type="number" id="color-move-PK" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot ABU"></span>ABU</label>
+                  <input type="number" id="color-move-ABU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot SEMU"></span>SEMU</label>
+                  <input type="number" id="color-move-SEMU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PCS"></span>PCS</label>
+                  <input type="number" id="color-move-PCS" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot BELANG"></span>BELANG</label>
+                  <input type="number" id="color-move-BELANG" min="0" step="any" placeholder="0">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('outspek-move-modal')">Batal</button>
+          <button type="submit" class="btn btn-primary">Konfirmasi Outspek</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Move to Packing Intercept Modal -->
+  <div class="modal-overlay" id="packing-move-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="packing-move-title">Nama Barang Stok Packing</h3>
+        <button class="modal-close" onclick="closeModal('packing-move-modal')">&times;</button>
+      </div>
+      <form id="packing-move-form">
+        <div class="modal-body">
+          <div class="merge-form-group">
+            <label for="packing-move-nama">Nama Barang Packing Akhir</label>
+            <input type="text" id="packing-move-nama" placeholder="Contoh: S1, S2, K1, SOA" required>
+          </div>
+        </div>
+  <!-- 5. Kurangi Sebagian (Split) Modal -->
+  <div class="modal-overlay" id="split-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="split-title">Kurangi Sebagian & Pindahkan</h3>
+        <button class="modal-close" onclick="closeModal('split-modal')">&times;</button>
+      </div>
+      <form id="split-form">
+        <div class="modal-body">
+          
+          <div class="info-banner" style="margin-bottom: 0.5rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Lot ini memiliki total berat <strong id="split-weight-hint">0</strong> gram. Masukkan berat yang ingin Anda kurangi untuk dipindahkan.</span>
+          </div>
+
+          <div class="form-grid">
+            <!-- Source Outspek color reductions (dynamic, visible only if source is Outspek) -->
+            <div class="form-group-full color-breakdown-section field-split-source-colors-wrapper" style="display: none; background-color: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);">
+              <div class="color-breakdown-title" style="color: #f87171;">Pecah Berat Warna yang Dikurangi (gr)</div>
+              <div class="color-input-grid">
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PT"></span>PT</label>
+                  <input type="number" id="color-split-src-PT" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PB"></span>PB</label>
+                  <input type="number" id="color-split-src-PB" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PK"></span>PK</label>
+                  <input type="number" id="color-split-src-PK" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot ABU"></span>ABU</label>
+                  <input type="number" id="color-split-src-ABU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot SEMU"></span>SEMU</label>
+                  <input type="number" id="color-split-src-SEMU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PCS"></span>PCS</label>
+                  <input type="number" id="color-split-src-PCS" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot BELANG"></span>BELANG</label>
+                  <input type="number" id="color-split-src-BELANG" min="0" step="any" placeholder="0">
+                </div>
+              </div>
+            </div>
+
+            <!-- Standard weight input (visible only if source is NOT Outspek) -->
+            <div class="form-group-full merge-form-group field-split-amount-wrapper">
+              <label for="split-amount">Berat yang Dikurangi (gram)</label>
+              <input type="number" id="split-amount" min="1" step="any" placeholder="Masukkan jumlah berat">
+            </div>
+
+            <div class="merge-form-group">
+              <label for="split-target-status">Pindahkan Ke Status</label>
+              <select id="split-target-status">
+                <option value="TIDAK_PO">TIDAK PO</option>
+                <option value="PO_TERBARU">PO TERBARU</option>
+                <option value="OUTSPEK">OUTSPEK</option>
+                <option value="STOK_PACKING">STOK PACKING</option>
+              </select>
+            </div>
+
+            <!-- Conditional: Asal Barang for target (Tidak PO, PO Terbaru, Outspek) -->
+            <div class="merge-form-group field-split-target-asal-wrapper">
+              <label for="split-target-asal">Asal Barang Baru</label>
+              <input type="text" id="split-target-asal" placeholder="Contoh: A JUMBO, P1">
+            </div>
+
+            <!-- Conditional: Nama Barang for target (Stok Packing) -->
+            <div class="merge-form-group field-split-target-nama-wrapper" style="display: none;">
+              <label for="split-target-nama">Nama Barang Packing Baru</label>
+              <input type="text" id="split-target-nama" placeholder="Contoh: S1, K1">
+            </div>
+
+            <!-- Color Breakdown for target Outspek -->
+            <div class="form-group-full color-breakdown-section field-split-target-colors-wrapper" style="display: none;">
+              <div class="color-breakdown-title">Rincian Warna Berat Baru (gr)</div>
+              <div class="color-input-grid">
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PT"></span>PT</label>
+                  <input type="number" id="color-split-tgt-PT" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PB"></span>PB</label>
+                  <input type="number" id="color-split-tgt-PB" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PK"></span>PK</label>
+                  <input type="number" id="color-split-tgt-PK" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot ABU"></span>ABU</label>
+                  <input type="number" id="color-split-tgt-ABU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot SEMU"></span>SEMU</label>
+                  <input type="number" id="color-split-tgt-SEMU" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot PCS"></span>PCS</label>
+                  <input type="number" id="color-split-tgt-PCS" min="0" step="any" placeholder="0">
+                </div>
+                <div class="color-input-wrapper">
+                  <label><span class="color-dot BELANG"></span>BELANG</label>
+                  <input type="number" id="color-split-tgt-BELANG" min="0" step="any" placeholder="0">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('split-modal')">Batal</button>
+          <button type="submit" class="btn btn-primary">Kurangi & Pindahkan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
