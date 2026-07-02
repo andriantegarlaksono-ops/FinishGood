@@ -1,0 +1,1011 @@
+<!-- Example HTML page showing how to integrate History Logging System -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinishGood - History Logging Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .demo-section h2 {
+      margin-bottom: 20px;
+      color: #333;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .demo-btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .demo-btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .demo-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .demo-btn-secondary {
+      background: #e8e8e8;
+      color: #333;
+    }
+
+    .demo-btn-secondary:hover {
+      background: #d0d0d0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 4px rgba(102, 126, 234, 0.3);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .info-box {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      color: #1565c0;
+    }
+
+    .success-box {
+      background: #c8e6c9;
+      border-left: 4px solid #4caf50;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+
+    .history-section {
+      margin-top: 30px;
+    }
+
+    /* Include history panel CSS */
+    .history-panel {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .history-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .history-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #e8e8e8;
+      border-color: #999;
+    }
+
+    .btn-small {
+      padding: 6px 10px;
+      font-size: 0.85rem;
+    }
+
+    .btn-danger:hover {
+      background: #ffebee;
+      border-color: #f44336;
+      color: #f44336;
+    }
+
+    .btn-link {
+      background: none;
+      border: none;
+      color: #2196f3;
+      cursor: pointer;
+      padding: 0;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+    .btn-link:hover {
+      color: #1976d2;
+    }
+
+    .history-filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 6px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .filter-input,
+    .filter-select {
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .filter-input:focus,
+    .filter-select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 4px rgba(102, 126, 234, 0.3);
+    }
+
+    #filter-reset {
+      align-self: flex-end;
+      margin-top: auto;
+    }
+
+    .history-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 6px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      background: white;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .history-timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .history-timeline::before {
+      content: '';
+      position: absolute;
+      left: 30px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #667eea, #4caf50);
+    }
+
+    .timeline-entry {
+      display: flex;
+      margin-bottom: 25px;
+      position: relative;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .timeline-marker {
+      position: relative;
+      width: 70px;
+      display: flex;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .timeline-icon {
+      position: relative;
+      z-index: 2;
+      font-size: 1.2rem;
+      color: #fff;
+      background: #667eea;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .timeline-entry:nth-child(2n) .timeline-icon {
+      background: #4caf50;
+    }
+
+    .timeline-entry:nth-child(3n) .timeline-icon {
+      background: #ff9800;
+    }
+
+    .timeline-entry:nth-child(4n) .timeline-icon {
+      background: #9c27b0;
+    }
+
+    .timeline-content {
+      flex: 1;
+      padding: 15px;
+      background: #f9f9f9;
+      border: 1px solid #e8e8e8;
+      border-radius: 6px;
+      margin-left: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .timeline-content:hover {
+      background: #f5f5f5;
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .timeline-action {
+      font-weight: 700;
+      color: #333;
+      font-size: 1rem;
+      display: inline-block;
+      padding: 4px 8px;
+      background: #e3f2fd;
+      border-radius: 4px;
+      color: #1976d2;
+    }
+
+    .timeline-timestamp {
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    .timeline-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .timeline-item-info {
+      display: flex;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .timeline-item-info strong {
+      color: #555;
+      min-width: 60px;
+    }
+
+    .timeline-item-name {
+      color: #333;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .timeline-movement {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      background: white;
+      border-left: 3px solid #667eea;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .timeline-from,
+    .timeline-to {
+      flex: 1;
+      padding: 4px 8px;
+      background: #f0f0f0;
+      border-radius: 3px;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    .timeline-arrow {
+      font-weight: bold;
+      color: #667eea;
+      flex-shrink: 0;
+    }
+
+    .timeline-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .timeline-user {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .timeline-user::before {
+      content: '👤';
+    }
+
+    .timeline-notes {
+      padding: 8px;
+      background: #fffbea;
+      border-left: 3px solid #ff9800;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .timeline-footer {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .history-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+      font-size: 1.1rem;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 15px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 4px;
+      align-items: start;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .detail-value {
+      color: #333;
+      font-size: 0.95rem;
+      word-break: break-word;
+    }
+
+    .detail-value pre {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    @media (max-width: 768px) {
+      .history-filters {
+        grid-template-columns: 1fr;
+      }
+
+      .history-stats {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+
+      .timeline-marker {
+        width: 50px;
+      }
+
+      .history-timeline::before {
+        left: 20px;
+      }
+
+      .detail-row {
+        grid-template-columns: 120px 1fr;
+      }
+
+      .history-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+      }
+
+      .history-controls {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .history-panel {
+        padding: 15px;
+      }
+
+      .timeline-entry {
+        margin-bottom: 15px;
+      }
+
+      .timeline-movement {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .timeline-arrow {
+        transform: rotate(90deg);
+      }
+
+      .detail-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .timeline-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .timeline-timestamp {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>📦 FinishGood - History Logging System</h1>
+      <p>Demo aplikasi untuk tracking split, perpindahan, dan riwayat perubahan inventory</p>
+    </div>
+
+    <!-- Demo Section 1: Manual Entry -->
+    <div class="demo-section">
+      <h2>🎯 Log Manual - Catat Aktivitas Baru</h2>
+
+      <div class="info-box">
+        💡 Gunakan form di bawah untuk mencatat split atau perpindahan item. Data akan ditampilkan di timeline riwayat.
+      </div>
+
+      <form id="manualLogForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="actionType">Tipe Aksi:</label>
+            <select id="actionType" name="actionType" required>
+              <option value="split">Split / Perpindahan</option>
+              <option value="move">Perpindahan</option>
+              <option value="transfer">Transfer</option>
+              <option value="status_change">Perubahan Status</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="itemId">ID Item:</label>
+            <input type="text" id="itemId" name="itemId" placeholder="ITEM-001" required />
+          </div>
+
+          <div class="form-group">
+            <label for="itemName">Nama Item:</label>
+            <input type="text" id="itemName" name="itemName" placeholder="Contoh: Widget Premium" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fromState">Dari (Lokasi/Status):</label>
+            <input type="text" id="fromState" name="fromState" placeholder="Warehouse A" required />
+          </div>
+
+          <div class="form-group">
+            <label for="toState">Ke (Lokasi/Status):</label>
+            <input type="text" id="toState" name="toState" placeholder="Warehouse B" required />
+          </div>
+
+          <div class="form-group">
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId" name="userId" placeholder="user123" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Catatan:</label>
+          <textarea id="notes" name="notes" placeholder="Catatan tambahan tentang aktivitas ini..."></textarea>
+        </div>
+
+        <button type="submit" class="demo-btn demo-btn-primary">📝 Log Aktivitas</button>
+      </form>
+    </div>
+
+    <!-- Demo Section 2: Quick Actions -->
+    <div class="demo-section">
+      <h2>⚡ Quick Demo - Contoh Aktivitas</h2>
+
+      <div class="info-box">
+        💡 Klik tombol di bawah untuk menambahkan contoh data history.
+      </div>
+
+      <div class="button-group">
+        <button class="demo-btn demo-btn-primary" onclick="addSampleSplit()">📦 Split Contoh 1</button>
+        <button class="demo-btn demo-btn-primary" onclick="addSampleMove()">🚚 Perpindahan Contoh</button>
+        <button class="demo-btn demo-btn-primary" onclick="addSampleTransfer()">↔️ Transfer Contoh</button>
+        <button class="demo-btn demo-btn-primary" onclick="addMultipleSamples()">🔀 Banyak Contoh</button>
+      </div>
+    </div>
+
+    <!-- Demo Section 3: Tools -->
+    <div class="demo-section">
+      <h2>🛠️ Tools & Utilities</h2>
+
+      <div class="info-box">
+        💡 Gunakan tools di bawah untuk melakukan berbagai operasi pada history.
+      </div>
+
+      <div class="button-group">
+        <button class="demo-btn demo-btn-secondary" onclick="showStats()">📊 Lihat Statistik</button>
+        <button class="demo-btn demo-btn-secondary" onclick="trackItem()">🔍 Track Item</button>
+        <button class="demo-btn demo-btn-secondary" onclick="exportJSON()">⬇️ Export JSON</button>
+        <button class="demo-btn demo-btn-secondary" onclick="exportCSV()">⬇️ Export CSV</button>
+      </div>
+    </div>
+
+    <!-- History Panel -->
+    <div class="history-section">
+      <div id="history-panel" class="history-panel">
+        <div class="history-header">
+          <h2>📋 Riwayat Aktivitas</h2>
+          <div class="history-controls">
+            <button id="history-refresh" class="btn btn-small" title="Refresh">🔄</button>
+            <button id="history-export-json" class="btn btn-small" title="Export JSON">⬇️ JSON</button>
+            <button id="history-export-csv" class="btn btn-small" title="Export CSV">⬇️ CSV</button>
+            <button id="history-clear" class="btn btn-small btn-danger" title="Clear History">🗑️</button>
+          </div>
+        </div>
+
+        <div class="history-filters">
+          <div class="filter-group">
+            <label for="filter-search">Cari:</label>
+            <input type="text" id="filter-search" class="filter-input" placeholder="Cari nama item..." />
+          </div>
+          <div class="filter-group">
+            <label for="filter-action">Tipe Aksi:</label>
+            <select id="filter-action" class="filter-select">
+              <option value="">Semua</option>
+              <option value="split">Split</option>
+              <option value="move">Perpindahan</option>
+              <option value="transfer">Transfer</option>
+              <option value="status_change">Perubahan Status</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-date">Tanggal:</label>
+            <input type="date" id="filter-date" class="filter-input" />
+          </div>
+          <div class="filter-group">
+            <label for="filter-user">User:</label>
+            <select id="filter-user" class="filter-select">
+              <option value="">Semua User</option>
+            </select>
+          </div>
+          <button id="filter-reset" class="btn btn-small">Reset Filter</button>
+        </div>
+
+        <div class="history-stats">
+          <div class="stat-item">
+            <span class="stat-label">Total Aktivitas:</span>
+            <span class="stat-value" id="stat-total">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Hari Ini:</span>
+            <span class="stat-value" id="stat-today">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">User Aktif:</span>
+            <span class="stat-value" id="stat-users">0</span>
+          </div>
+        </div>
+
+        <div class="history-timeline" id="history-timeline"></div>
+        <div id="history-empty" class="history-empty">
+          <p>📭 Belum ada riwayat aktivitas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/modules/history-logger.js"></script>
+  <script src="../js/modules/history-ui.js"></script>
+
+  <script>
+    // Initialize History Logger and UI
+    const historyLogger = new HistoryLogger();
+    const historyUI = new HistoryUI(historyLogger);
+
+    // Form submission
+    document.getElementById('manualLogForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      historyLogger.logMovement({
+        action: formData.get('actionType'),
+        fromState: formData.get('fromState'),
+        toState: formData.get('toState'),
+        itemId: formData.get('itemId'),
+        itemName: formData.get('itemName'),
+        userId: formData.get('userId'),
+        notes: formData.get('notes'),
+      });
+
+      alert('✅ Aktivitas berhasil dicatat!');
+      this.reset();
+    });
+
+    // Sample data functions
+    function addSampleSplit() {
+      historyLogger.logSplit({
+        sourceContainer: 'Gudang Pusat',
+        targetContainer: 'Toko Cabang 1',
+        itemId: 'PROD-001',
+        itemName: 'Barang Premium',
+        sourceQuantity: 500,
+        splitQuantity: 200,
+        remainingQuantity: 300,
+        userId: 'admin',
+        notes: 'Split rutin untuk restock cabang',
+      });
+      alert('✅ Contoh split berhasil ditambahkan!');
+    }
+
+    function addSampleMove() {
+      historyLogger.logMovement({
+        action: 'move',
+        fromState: 'Storage A',
+        toState: 'Storage B',
+        itemId: 'PROD-002',
+        itemName: 'Barang Standar',
+        userId: 'warehouse_staff',
+        notes: 'Perpindahan untuk optimasi space',
+      });
+      alert('✅ Contoh perpindahan berhasil ditambahkan!');
+    }
+
+    function addSampleTransfer() {
+      historyLogger.logMovement({
+        action: 'transfer',
+        fromState: 'Toko Cabang 1',
+        toState: 'Toko Cabang 2',
+        itemId: 'PROD-003',
+        itemName: 'Barang Spesial',
+        userId: 'manager',
+        notes: 'Transfer untuk pemerataan stock',
+      });
+      alert('✅ Contoh transfer berhasil ditambahkan!');
+    }
+
+    function addMultipleSamples() {
+      const samples = [
+        {
+          action: 'split',
+          fromState: 'Warehouse',
+          toState: 'Store 1',
+          itemId: 'PROD-100',
+          itemName: 'Item A',
+          userId: 'user1',
+        },
+        {
+          action: 'move',
+          fromState: 'Store 1',
+          toState: 'Store 2',
+          itemId: 'PROD-101',
+          itemName: 'Item B',
+          userId: 'user2',
+        },
+        {
+          action: 'transfer',
+          fromState: 'Store 2',
+          toState: 'Warehouse',
+          itemId: 'PROD-102',
+          itemName: 'Item C',
+          userId: 'user3',
+        },
+        {
+          action: 'status_change',
+          fromState: 'Aktif',
+          toState: 'Nonaktif',
+          itemId: 'PROD-103',
+          itemName: 'Item D',
+          userId: 'admin',
+        },
+      ];
+
+      samples.forEach(sample => {
+        historyLogger.logMovement(sample);
+      });
+
+      alert('✅ ' + samples.length + ' contoh data berhasil ditambahkan!');
+    }
+
+    function showStats() {
+      const history = historyLogger.getHistory();
+      const users = new Set(history.map(h => h.userId));
+      const actions = {};
+
+      history.forEach(h => {
+        actions[h.action] = (actions[h.action] || 0) + 1;
+      });
+
+      alert(
+        `📊 STATISTIK HISTORY\n\n` +
+        `Total Entries: ${history.length}\n` +
+        `Unique Users: ${users.size}\n` +
+        `Users: ${Array.from(users).join(', ')}\n\n` +
+        `Actions:\n` +
+        Object.entries(actions)
+          .map(([action, count]) => `  ${action}: ${count}`)
+          .join('\n')
+      );
+    }
+
+    function trackItem() {
+      const itemId = prompt('Masukkan Item ID untuk tracking:\n(Contoh: PROD-001)', 'PROD-001');
+      if (!itemId) return;
+
+      const path = historyLogger.getMovementPath(itemId);
+      if (path.length === 0) {
+        alert(`❌ Tidak ada history untuk item: ${itemId}`);
+        return;
+      }
+
+      const pathStr = path
+        .map(
+          (p, i) =>
+            `${i + 1}. [${HistoryLogger.formatTimestamp(p.timestamp)}]\n   ${p.from} → ${p.to} (${p.action})`
+        )
+        .join('\n\n');
+
+      alert(`📍 PERGERAKAN ITEM: ${itemId}\n\n${pathStr}`);
+    }
+
+    function exportJSON() {
+      const data = historyLogger.exportAsJSON();
+      download(data, 'history.json', 'application/json');
+      alert('✅ Export JSON berhasil!');
+    }
+
+    function exportCSV() {
+      const data = historyLogger.exportAsCSV();
+      download(data, 'history.csv', 'text/csv');
+      alert('✅ Export CSV berhasil!');
+    }
+
+    function download(content, filename, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
