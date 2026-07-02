@@ -1,0 +1,185 @@
+<!-- History Panel Component -->
+<div id="history-panel" class="history-panel">
+  <!-- Header -->
+  <div class="history-header">
+    <h2>📋 Riwayat Aktivitas</h2>
+    <div class="history-controls">
+      <button id="history-refresh" class="btn btn-small" title="Refresh">
+        🔄
+      </button>
+      <button id="history-export-json" class="btn btn-small" title="Export JSON">
+        ⬇️ JSON
+      </button>
+      <button id="history-export-csv" class="btn btn-small" title="Export CSV">
+        ⬇️ CSV
+      </button>
+      <button id="history-clear" class="btn btn-small btn-danger" title="Clear History">
+        🗑️
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="history-filters">
+    <div class="filter-group">
+      <label for="filter-search">Cari:</label>
+      <input
+        type="text"
+        id="filter-search"
+        class="filter-input"
+        placeholder="Cari nama item, ID, atau catatan..."
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="filter-action">Tipe Aksi:</label>
+      <select id="filter-action" class="filter-select">
+        <option value="">Semua</option>
+        <option value="split">Split / Perpindahan</option>
+        <option value="move">Perpindahan</option>
+        <option value="transfer">Transfer</option>
+        <option value="status_change">Perubahan Status</option>
+        <option value="create">Dibuat</option>
+        <option value="delete">Dihapus</option>
+        <option value="update">Diperbarui</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="filter-date">Tanggal:</label>
+      <input type="date" id="filter-date" class="filter-input" />
+    </div>
+
+    <div class="filter-group">
+      <label for="filter-user">User:</label>
+      <select id="filter-user" class="filter-select">
+        <option value="">Semua User</option>
+      </select>
+    </div>
+
+    <button id="filter-reset" class="btn btn-small">Reset Filter</button>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="history-stats">
+    <div class="stat-item">
+      <span class="stat-label">Total Aktivitas:</span>
+      <span class="stat-value" id="stat-total">0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Hari Ini:</span>
+      <span class="stat-value" id="stat-today">0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">User Aktif:</span>
+      <span class="stat-value" id="stat-users">0</span>
+    </div>
+  </div>
+
+  <!-- Timeline Container -->
+  <div class="history-timeline" id="history-timeline">
+    <!-- Timeline entries will be inserted here -->
+  </div>
+
+  <!-- Empty State -->
+  <div id="history-empty" class="history-empty" style="display: none;">
+    <p>📭 Belum ada riwayat aktivitas</p>
+  </div>
+
+  <!-- Loading State -->
+  <div id="history-loading" class="history-loading" style="display: none;">
+    <p>⏳ Memuat riwayat...</p>
+  </div>
+</div>
+
+<!-- History Detail Modal -->
+<div id="history-detail-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Detail Aktivitas</h3>
+      <button class="modal-close" id="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid">
+        <div class="detail-row">
+          <span class="detail-label">ID:</span>
+          <span class="detail-value" id="detail-id">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Waktu:</span>
+          <span class="detail-value" id="detail-timestamp">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Tipe Aksi:</span>
+          <span class="detail-value" id="detail-action">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Dari:</span>
+          <span class="detail-value" id="detail-from">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Ke:</span>
+          <span class="detail-value" id="detail-to">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Item ID:</span>
+          <span class="detail-value" id="detail-item-id">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Nama Item:</span>
+          <span class="detail-value" id="detail-item-name">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">User:</span>
+          <span class="detail-value" id="detail-user">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Catatan:</span>
+          <span class="detail-value" id="detail-notes">-</span>
+        </div>
+        <div class="detail-row" id="detail-metadata-container" style="display: none;">
+          <span class="detail-label">Metadata:</span>
+          <pre class="detail-value" id="detail-metadata">-</pre>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="modal-close-btn">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- Timeline Entry Template (used for rendering) -->
+<template id="timeline-entry-template">
+  <div class="timeline-entry" data-id="">
+    <div class="timeline-marker">
+      <span class="timeline-icon">●</span>
+    </div>
+    <div class="timeline-content">
+      <div class="timeline-header">
+        <span class="timeline-action">-</span>
+        <span class="timeline-timestamp">-</span>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-item-info">
+          <strong>Item:</strong>
+          <span class="timeline-item-name">-</span>
+        </div>
+        <div class="timeline-movement">
+          <span class="timeline-from">-</span>
+          <span class="timeline-arrow">→</span>
+          <span class="timeline-to">-</span>
+        </div>
+        <div class="timeline-meta">
+          <span class="timeline-user">-</span>
+        </div>
+        <div class="timeline-notes" style="display: none;">
+          <span class="timeline-note-text">-</span>
+        </div>
+      </div>
+      <div class="timeline-footer">
+        <button class="btn-link details-btn">Lihat Detail</button>
+      </div>
+    </div>
+  </div>
+</template>
