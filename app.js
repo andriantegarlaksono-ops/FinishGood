@@ -120,10 +120,19 @@ let state = {
 
 // Initialize App
 document.addEventListener("DOMContentLoaded", () => {
+  // Inisialisasi sistem login terlebih dahulu
+  initAuth();
+
+  // App diinisialisasi dari showAppScreen() di auth.js
+  // Fungsi di bawah dipanggil setelah login berhasil
+});
+
+// Fungsi ini dipanggil oleh auth.js setelah login berhasil
+function initApp() {
   loadData();
   setupEventListeners();
   renderAll();
-});
+}
 
 // Load data from LocalStorage or fall back to Initial Sample Data
 function loadData() {
@@ -887,6 +896,11 @@ function handleAddItemForm(e) {
 let editingItemId = null;
 
 function openEditModal(id) {
+  // Cek role: viewer tidak boleh edit
+  if (window.currentUserRole === "viewer") {
+    showToast("Anda tidak memiliki izin untuk mengedit item. Hubungi Admin.", "error");
+    return;
+  }
   const item = state.stock.find(i => i.id === id);
   if (!item) return;
 
@@ -985,6 +999,11 @@ function handleEditItemForm(e) {
 
 // Delete item lot
 function deleteItem(id) {
+  // Cek role: viewer tidak boleh hapus
+  if (window.currentUserRole === "viewer") {
+    showToast("Anda tidak memiliki izin untuk menghapus item. Hubungi Admin.", "error");
+    return;
+  }
   if (confirm(`Apakah Anda yakin ingin menghapus lot ${id}?`)) {
     state.stock = state.stock.filter(item => item.id !== id);
     saveData();
