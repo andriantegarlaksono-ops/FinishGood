@@ -109,6 +109,7 @@ const COLORS = ["PT", "PB", "PK", "ABU", "SEMU", "PCS", "BELANG"];
 // Application State
 let state = {
   stock: [],
+  history: [],
   selectedMergeItems: [],
   searchQueries: {
     TIDAK_PO: "",
@@ -130,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Fungsi ini dipanggil oleh auth.js setelah login berhasil
 function initApp() {
   loadData();
+  loadHistory();
   setupEventListeners();
   renderAll();
 }
@@ -166,12 +168,155 @@ function saveData() {
   localStorage.setItem("walet_stock_data", JSON.stringify(state.stock));
 }
 
+// ============================================================
+//  SISTEM RIWAYAT / TRANSAKSI LOGS
+// ============================================================
+function logTransaction(action, itemId, details, berat = null, customer = null) {
+  let username = "Sistem";
+  try {
+    const sessionData = sessionStorage.getItem("walet_auth_session");
+    if (sessionData) {
+      const session = JSON.parse(sessionData);
+      username = session.displayName || session.username;
+    }
+  } catch (e) {
+    console.error("Error reading session for history log", e);
+  }
+
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    user: username,
+    action: action, // TAMBAH, PINDAH, EDIT, HAPUS, MERGE
+    itemId: itemId,
+    berat: berat,
+    customer: customer,
+    details: details
+  };
+
+  if (!state.history) state.history = [];
+  state.history.unshift(logEntry);
+  saveHistory();
+  renderHistory();
+}
+
+function saveHistory() {
+  localStorage.setItem("walet_stock_history", JSON.stringify(state.history));
+}
+
+function loadHistory() {
+  const saved = localStorage.getItem("walet_stock_history");
+  if (saved) {
+    try {
+      state.history = JSON.parse(saved);
+    } catch (e) {
+      console.error("Gagal load history", e);
+      state.history = [];
+    }
+  } else {
+    state.history = [];
+  }
+}
+
+function clearHistory() {
+  if (confirm("Apakah Anda yakin ingin menghapus seluruh catatan riwayat transaksi? Tindakan ini tidak dapat dibatalkan.")) {
+    state.history = [];
+    saveHistory();
+    renderHistory();
+    showToast("Seluruh riwayat berhasil dihapus.");
+  }
+}
+
+function exportHistoryCSV() {
+  if (!state.history || state.history.length === 0) {
+    showToast("Tidak ada riwayat untuk diekspor.", "error");
+    return;
+  }
+
+  let csvContent = "Waktu,Pengguna,Aksi,Item ID,Customer,Berat (g),Keterangan\n";
+  state.history.forEach(log => {
+    const date = new Date(log.timestamp);
+    const timeStr = date.toLocaleDateString("id-ID") + " " + date.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' });
+    const beratVal = log.berat !== null && log.berat !== undefined ? log.berat : "";
+    csvContent += `"${timeStr}","${log.user}","${log.action}","${log.itemId || ''}","${log.customer || ''}",${beratVal},"${log.details.replace(/"/g, '""')}"\n`;
+  });
+
+  const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(csvContent);
+  const downloadAnchor = document.createElement("a");
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `walet_stock_history_${new Date().toISOString().slice(0,10)}.csv`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+  showToast("File CSV riwayat berhasil diekspor.");
+}
+
+function renderHistory() {
+  const container = document.getElementById("history-table-body");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const searchQuery = (document.getElementById("history-search")?.value || "").toLowerCase().trim();
+  const actionFilter = document.getElementById("history-filter-action")?.value || "ALL";
+
+  if (!state.history || state.history.length === 0) {
+    container.innerHTML = `<tr><td colspan="7" class="empty-state">Belum ada riwayat aktivitas.</td></tr>`;
+    return;
+  }
+
+  // Filter logs
+  const filtered = state.history.filter(log => {
+    if (actionFilter !== "ALL" && log.action !== actionFilter) return false;
+
+    if (searchQuery) {
+      const matchUser = (log.user || "").toLowerCase().includes(searchQuery);
+      const matchId = (log.itemId || "").toLowerCase().includes(searchQuery);
+      const matchDetails = (log.details || "").toLowerCase().includes(searchQuery);
+      const matchCust = (log.customer || "").toLowerCase().includes(searchQuery);
+      return matchUser || matchId || matchDetails || matchCust;
+    }
+
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<tr><td colspan="7" class="empty-state">Tidak ada hasil riwayat yang cocok.</td></tr>`;
+    return;
+  }
+
+  filtered.forEach(log => {
+    const row = document.createElement("tr");
+    const date = new Date(log.timestamp);
+    const timeStr = date.toLocaleDateString("id-ID") + " " + date.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' });
+
+    let badgeClass = "badge-action-pindah";
+    if (log.action === "TAMBAH") badgeClass = "badge-action-tambah";
+    if (log.action === "EDIT") badgeClass = "badge-action-edit";
+    if (log.action === "HAPUS") badgeClass = "badge-action-hapus";
+    if (log.action === "MERGE") badgeClass = "badge-action-merge";
+
+    const formattedWeight = log.berat !== null && log.berat !== undefined ? `${formatNumber(log.berat)} g` : "-";
+
+    row.innerHTML = `
+      <td class="history-time">${timeStr}</td>
+      <td class="history-user">${log.user}</td>
+      <td><span class="badge-history-action ${badgeClass}">${log.action}</span></td>
+      <td style="font-family: monospace; font-weight: 600;">${log.itemId || '-'}</td>
+      <td>${log.customer || '-'}</td>
+      <td class="history-weight">${formattedWeight}</td>
+      <td class="history-desc">${log.details}</td>
+    `;
+    container.appendChild(row);
+  });
+}
+
 // Main render router
 function renderAll() {
   updateStats();
   renderPivotTables();
   renderBoard();
   renderOutspekMatcher();
+  renderHistory();
 }
 
 // Update Top Dashboard stats

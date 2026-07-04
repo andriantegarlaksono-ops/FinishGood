@@ -1389,3 +1389,83 @@ tr:hover td {
 .sidebar-actions {
   flex: 1 0 auto;
 }
+
+/* ============================================================
+   SISTEM RIWAYAT AKTIVITAS (LOGS) - STYLES
+   ============================================================ */
+
+.badge-history-action {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  border: 1px solid transparent;
+}
+
+.badge-action-tambah {
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.badge-action-pindah {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.badge-action-edit {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.badge-action-hapus {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.badge-action-merge {
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.history-time {
+  font-family: monospace;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.history-user {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.history-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.history-weight {
+  font-family: var(--font-title);
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.history-filters input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.history-filters input:focus, 
+.history-filters select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+  outline: none;
+}

@@ -140,6 +140,7 @@ function applyRoleRestrictions(role) {
   const adminOnlyIds = [
     "btn-add-item",      // Tombol Input Lot Baru
     "btn-merge-action",  // Tombol Gabung Outspek
+    "btn-clear-history", // Tombol Hapus Semua Log
   ];
 
   adminOnlyIds.forEach(id => {

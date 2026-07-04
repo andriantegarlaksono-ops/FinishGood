@@ -138,6 +138,12 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           Penyatuan Outspek
         </li>
+        <li class="nav-item" data-tab="tab-history">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Riwayat Aktivitas
+        </li>
       </ul>
 
       <div class="sidebar-actions">
@@ -477,6 +483,59 @@
             </div>
           </div>
 
+      <!-- TAB 4: Riwayat Aktivitas / Logs -->
+      <section class="tab-panel" id="tab-history">
+        <div class="card">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <span class="card-title">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" stroke-width="2" fill="none" style="vertical-align: middle; margin-right: 0.5rem;"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Log Transaksi & Perpindahan Barang
+            </span>
+            <div style="display: flex; gap: 0.75rem;">
+              <button class="btn btn-secondary" onclick="exportHistoryCSV()">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Ekspor Log CSV
+              </button>
+              <button class="btn btn-secondary" id="btn-clear-history" onclick="clearHistory()" style="color: var(--color-outspek); border-color: rgba(239, 68, 68, 0.2);">
+                Hapus Semua Log
+              </button>
+            </div>
+          </div>
+          
+          <div class="history-filters" style="padding: 1rem; border-bottom: 1px solid var(--border-glass); display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;">
+              <input type="text" id="history-search" placeholder="Cari berdasarkan User, Item ID, atau Keterangan..." style="width: 100%; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-glass); padding: 0.5rem 1rem; border-radius: 8px; color: var(--color-text-primary); outline: none;">
+            </div>
+            <div>
+              <select id="history-filter-action" style="background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-glass); padding: 0.5rem 1rem; border-radius: 8px; color: var(--color-text-primary); outline: none;">
+                <option value="ALL">Semua Aksi</option>
+                <option value="TAMBAH">Tambah Lot</option>
+                <option value="PINDAH">Pindah Status</option>
+                <option value="EDIT">Edit Item</option>
+                <option value="HAPUS">Hapus Item</option>
+                <option value="MERGE">Penyatuan</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Waktu</th>
+                  <th>Pengguna</th>
+                  <th>Aksi</th>
+                  <th>Item ID</th>
+                  <th>Customer</th>
+                  <th>Berat</th>
+                  <th>Keterangan</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <!-- Generated dynamically -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
